@@ -1,7 +1,11 @@
 import { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
-type ContainerProps = { children: ReactNode };
+type ContainerProps = {
+  children: ReactNode;
+  className?: string;
+};
 
-export function Container({ children }: ContainerProps) {
-  return <div style={{ margin: "0 auto", maxWidth: "var(--container)", padding: "0 1rem" }}>{children}</div>;
+export function Container({ children, className }: ContainerProps) {
+  return <div className={cn("container", className)}>{children}</div>;
 }

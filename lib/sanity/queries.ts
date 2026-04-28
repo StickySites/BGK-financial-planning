@@ -4,6 +4,13 @@ export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
     siteTitle,
     tagline,
+    heroIntro,
+    servicesIntro,
+    trustHeading,
+    trustIntro,
+    trustPointOne,
+    trustPointTwo,
+    trustPointThree,
     email,
     phone,
     address,

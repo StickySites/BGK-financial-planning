@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
+import { Separator } from "@/components/ui/separator";
 import { fallbackTestimonials, getResources, getServices, getSiteSettings } from "@/lib/content";
 import { mapSeoToMetadata } from "@/lib/seo";
 
@@ -18,81 +22,132 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="section-block">
+      <section className="section-shell">
         <Container>
-          <div className="hero">
+          <div className="hero-panel">
             <div>
-              <h1>{settings.tagline || "Don't take any chances with your finances."}</h1>
-              <p className="section-intro">
-                We provide clear financial guidance built around your needs, with practical support across investing,
-                retirement planning, protection, and mortgage decisions.
+              <Badge variant="secondary" className="mb-3">Independent Financial Planning</Badge>
+              <h1 className="mb-4 font-heading text-4xl font-semibold leading-tight md:text-6xl">
+                {settings.tagline || "Don't take any chances with your finances."}
+              </h1>
+              <p className="mb-6 max-w-2xl text-base text-muted-foreground md:text-lg">
+                {settings.heroIntro ||
+                  "At BGK Financial Planning, we help individuals and families make informed financial decisions with practical, long-term advice across investments, retirement, protection, and mortgage planning."}
               </p>
-              <Link href="/services" className="button-link">Explore Services</Link>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild><Link href="/services">Explore Services</Link></Button>
+                <Button asChild variant="secondary"><Link href="/contact">Speak to BGK</Link></Button>
+              </div>
             </div>
-            <div className="hero-media">Brand image placeholder</div>
+            <div className="hero-placeholder">Media placeholder: homepage hero</div>
+          </div>
+
+          <div className="kpi-band">
+            <article>
+              <h3 className="kpi-title">Personalised</h3>
+              <p className="kpi-text">Advice tailored to your goals, timeline, and circumstances.</p>
+            </article>
+            <article>
+              <h3 className="kpi-title">Practical</h3>
+              <p className="kpi-text">Clear recommendations explained in plain English.</p>
+            </article>
+            <article>
+              <h3 className="kpi-title">Long-term</h3>
+              <p className="kpi-text">Ongoing reviews to keep your planning aligned over time.</p>
+            </article>
           </div>
         </Container>
       </section>
 
-      <section className="section-block">
+      <section className="section-shell">
         <Container>
           <h2 className="section-title">Our Services</h2>
-          <p className="section-intro">Choose a service to learn more about how BGK can support your planning goals.</p>
-          <div className="grid">
+          <p className="section-intro">{settings.servicesIntro}</p>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {services.map((service) => (
-              <article key={service.slug} className="card">
-                <h3>{service.title}</h3>
-                <p className="muted" style={{ marginBottom: "0.8rem" }}>{service.summary || "Service details coming soon."}</p>
-                <Link className="pill-link" href={`/services/${service.slug}`}>View service</Link>
-              </article>
+              <Card key={service.slug}>
+                <CardHeader>
+                  <CardTitle>{service.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="mb-4 text-sm text-muted-foreground">{service.summary || "Service details coming soon."}</p>
+                  <Link className="text-sm font-semibold text-[#00509E] hover:underline" href={`/services/${service.slug}`}>
+                    View service
+                  </Link>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="section-block">
+      <section className="section-shell">
         <Container>
-          <h2 className="section-title">Building Financial Futures Together</h2>
-          <div className="grid grid-2">
-            <article className="card">
-              <h3>Personalised guidance</h3>
-              <p className="muted">Advice shaped around your goals, timeline, and preferred level of risk.</p>
-            </article>
-            <article className="card">
-              <h3>Reliable support</h3>
-              <p className="muted">A straightforward process designed to help you make confident decisions over time.</p>
-            </article>
+          <h2 className="section-title">{settings.trustHeading}</h2>
+          <p className="section-intro">{settings.trustIntro}</p>
+          <div className="grid gap-5 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Trusted guidance</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <p>{settings.trustPointOne}</p>
+                <Separator />
+                <p>{settings.trustPointTwo}</p>
+                <Separator />
+                <p>{settings.trustPointThree}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>How we work</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  We start with your priorities, build a clear plan, and provide regular reviews so decisions remain aligned to your life and goals.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </Container>
       </section>
 
-      <section className="section-block">
+      <section className="section-shell">
         <Container>
-          <h2 className="section-title">Client Feedback</h2>
-          <div className="grid grid-2">
+          <h2 className="section-title">Client feedback</h2>
+          <div className="grid gap-5 md:grid-cols-2">
             {fallbackTestimonials.map((item) => (
-              <article className="card" key={item.name}>
-                <p style={{ marginBottom: "0.75rem" }}>&quot;{item.quote}&quot;</p>
-                <p className="muted">{item.name} - {item.role}</p>
-              </article>
+              <Card key={item.name}>
+                <CardContent className="pt-6">
+                  <p className="mb-3 text-base text-foreground">&quot;{item.quote}&quot;</p>
+                  <p className="text-sm text-muted-foreground">{item.name} - {item.role}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="section-block">
+      <section className="section-shell">
         <Container>
-          <h2 className="section-title">Latest Resources</h2>
-          <div className="grid">
+          <h2 className="section-title">Latest resources</h2>
+          <p className="section-intro">Practical insights to support better financial decisions throughout the year.</p>
+          <div className="grid gap-5 md:grid-cols-3">
             {resources.slice(0, 3).map((resource) => (
-              <article className="card" key={resource._id}>
-                <h3>{resource.title}</h3>
-                <p className="muted">{resource.excerpt}</p>
-              </article>
+              <Card key={resource._id}>
+                <CardHeader>
+                  <CardTitle className="text-lg">{resource.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">{resource.excerpt}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
-          <div style={{ marginTop: "1rem" }}>
-            <Link href="/resources" className="pill-link">Browse all resources</Link>
+          <div className="mt-4">
+            <Button asChild variant="link" className="px-0">
+              <Link href="/resources">Browse all resources</Link>
+            </Button>
           </div>
         </Container>
       </section>

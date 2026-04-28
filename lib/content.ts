@@ -16,6 +16,16 @@ import type {
 const fallbackSettings: SiteSettings = {
   siteTitle: "BGK Financial Planning",
   tagline: "Don't take any chances with your finances.",
+  heroIntro:
+    "We help individuals and families make confident financial decisions through practical, long-term planning.",
+  servicesIntro:
+    "Explore our core advisory services designed to support the next stage of your financial journey.",
+  trustHeading: "Why clients choose BGK",
+  trustIntro:
+    "Our approach combines professional expertise with clear communication and dependable long-term support.",
+  trustPointOne: "Independent guidance aligned to your personal goals.",
+  trustPointTwo: "Transparent advice and recommendations in plain English.",
+  trustPointThree: "Ongoing reviews that keep your plan on track.",
   email: "hello@bgkfinancialplanning.co.uk",
   phone: "+44 (0)20 1234 5678",
   address: "London, United Kingdom",
@@ -43,28 +53,28 @@ const fallbackServices: ServiceItem[] = [
     title: "Investment Guidance",
     slug: "investment-guidance",
     summary:
-      "Tailored guidance to help you invest with confidence while keeping risk aligned to your goals."
+      "Build a long-term investment strategy that reflects your goals, timeline, and comfort with risk."
   },
   {
     _id: "service-retirement",
     title: "Retirement Planning",
     slug: "retirement-planning",
     summary:
-      "Clear retirement strategies designed around your timeline, lifestyle expectations, and income needs."
+      "Create a clear retirement roadmap with realistic income planning and regular milestone reviews."
   },
   {
     _id: "service-protection",
     title: "Protection",
     slug: "protection",
     summary:
-      "Protection planning to safeguard your family and long-term financial stability against uncertainty."
+      "Protect your family and financial plan with insurance and risk-management recommendations."
   },
   {
     _id: "service-mortgage",
     title: "Mortgage Advice",
     slug: "mortgage-advice",
     summary:
-      "Mortgage guidance to help you compare options and choose the right structure for your circumstances."
+      "Get mortgage guidance tailored to your current circumstances and longer-term plans."
   }
 ];
 
@@ -118,14 +128,14 @@ export async function getResources(): Promise<ResourceItem[]> {
 export const fallbackTestimonials = [
   {
     name: "Emily Carter",
-    role: "Marketing Manager",
+    role: "Business Owner",
     quote:
-      "BGK Financial Planning transformed my approach to savings and long-term planning."
+      "BGK gave me a clear plan and helped me make financial decisions with far more confidence."
   },
   {
     name: "Rachel and Tom Smith",
-    role: "Clients",
+    role: "Family Clients",
     quote:
-      "Their guidance gave us confidence and clarity around our family financial goals."
+      "Their practical advice made our long-term planning feel structured, realistic, and manageable."
   }
 ];

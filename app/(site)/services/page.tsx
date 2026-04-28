@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getServices, getSiteSettings } from "@/lib/content";
 import { mapSeoToMetadata } from "@/lib/seo";
 
@@ -13,18 +14,27 @@ export default async function ServicesPage() {
   const services = await getServices();
 
   return (
-    <section className="section-block">
+    <section className="section-shell">
       <Container>
-        <h1 className="section-title">Services</h1>
-        <p className="section-intro">Explore our core advisory areas and choose the service that best matches your needs.</p>
+        <h1 className="section-title">Financial planning services</h1>
+        <p className="section-intro">
+          Our services are designed to provide practical guidance, clear options, and long-term confidence as your
+          financial needs evolve.
+        </p>
 
-        <div className="grid grid-2">
+        <div className="grid gap-5 md:grid-cols-2">
           {services.map((service) => (
-            <article className="card" key={service.slug}>
-              <h2>{service.title}</h2>
-              <p className="muted" style={{ marginBottom: "0.75rem" }}>{service.summary || "Service details coming soon."}</p>
-              <Link href={`/services/${service.slug}`} className="pill-link">Read more</Link>
-            </article>
+            <Card key={service.slug}>
+              <CardHeader>
+                <CardTitle>{service.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4 text-sm text-muted-foreground">{service.summary || "Service details coming soon."}</p>
+                <Link href={`/services/${service.slug}`} className="text-sm font-semibold text-[#00509E] hover:underline">
+                  Read full overview
+                </Link>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </Container>

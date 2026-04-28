@@ -7,6 +7,13 @@ export type SeoFields = {
 export type SiteSettings = {
   siteTitle?: string;
   tagline?: string;
+  heroIntro?: string;
+  servicesIntro?: string;
+  trustHeading?: string;
+  trustIntro?: string;
+  trustPointOne?: string;
+  trustPointTwo?: string;
+  trustPointThree?: string;
   email?: string;
   phone?: string;
   address?: string;

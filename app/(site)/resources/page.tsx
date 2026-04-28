@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { getResourceListSettings, getResources } from "@/lib/content";
 import { mapSeoToMetadata } from "@/lib/seo";
@@ -12,23 +14,26 @@ export default async function ResourcesPage() {
   const [resources, settings] = await Promise.all([getResources(), getResourceListSettings()]);
 
   return (
-    <section className="section-block">
+    <section className="section-shell">
       <Container>
         <h1 className="section-title">{settings.heading || "Resources"}</h1>
-        <p className="section-intro">
-          {settings.intro ||
-            "Helpful articles and guidance notes to support informed decisions around planning, investments, and protection."}
-        </p>
+        <p className="section-intro">{settings.intro}</p>
 
-        <div className="grid grid-2">
+        <div className="grid gap-5 md:grid-cols-2">
           {resources.map((resource) => (
-            <article className="card" key={resource._id}>
-              <h2>{resource.title}</h2>
-              <p className="muted" style={{ marginBottom: "0.5rem" }}>{resource.excerpt || "Resource summary coming soon."}</p>
-              {resource.publishedAt ? (
-                <p className="muted">{new Date(resource.publishedAt).toLocaleDateString("en-GB")}</p>
-              ) : null}
-            </article>
+            <Card key={resource._id}>
+              <CardHeader>
+                <CardTitle>{resource.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-3 text-sm text-muted-foreground">{resource.excerpt || "Resource summary coming soon."}</p>
+                {resource.publishedAt ? (
+                  <Badge variant="secondary" className="normal-case tracking-normal text-[#3E6992]">
+                    {new Date(resource.publishedAt).toLocaleDateString("en-GB")}
+                  </Badge>
+                ) : null}
+              </CardContent>
+            </Card>
           ))}
         </div>
       </Container>
