@@ -1,21 +1,25 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { siteConfig } from "@/lib/site";
+import { getServices } from "@/lib/content";
 
-export function Header() {
+export async function Header() {
+  const services = await getServices();
+
   return (
-    <header style={{ background: "var(--surface)", borderBottom: "1px solid var(--border)" }}>
+    <header className="site-header">
       <Container>
-        <nav aria-label="Main navigation" style={{ alignItems: "center", display: "flex", gap: "1rem", justifyContent: "space-between", minHeight: "72px" }}>
-          <Link href="/" style={{ fontSize: "1.05rem", fontWeight: 700 }}>{siteConfig.name}</Link>
-          <ul style={{ display: "flex", gap: "1rem", listStyle: "none", margin: 0, padding: 0 }}>
+        <nav aria-label="Main navigation" className="site-nav">
+          <Link href="/" className="brand-title">BGK Financial Planning</Link>
+
+          <ul className="nav-list">
             <li><Link href="/">Home</Link></li>
-            <li>
+            <li className="service-menu" style={{ position: "relative" }}>
               <details>
-                <summary style={{ cursor: "pointer" }}>Services</summary>
-                <ul style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "8px", listStyle: "none", margin: "0.5rem 0 0", padding: "0.5rem" }}>
-                  {siteConfig.services.map((service) => (
-                    <li key={service.slug} style={{ margin: "0.3rem 0" }}>
+                <summary>Services</summary>
+                <ul className="service-dropdown">
+                  <li><Link href="/services">All Services</Link></li>
+                  {services.map((service) => (
+                    <li key={service.slug}>
                       <Link href={`/services/${service.slug}`}>{service.title}</Link>
                     </li>
                   ))}

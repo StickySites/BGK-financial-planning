@@ -8,6 +8,7 @@ import { schemaTypes } from "@/sanity/schemaTypes";
 export default defineConfig({
   name: "default",
   title: "BGK Studio",
+  basePath: "/studio",
   projectId: sanityEnv.projectId,
   dataset: sanityEnv.dataset,
   plugins: [deskTool()],
