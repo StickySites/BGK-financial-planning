@@ -30,8 +30,37 @@ export type ServiceItem = {
   title: string;
   slug: string;
   summary?: string;
+  heroImageUrl?: string;
   body?: Array<unknown>;
   seo?: SeoFields;
+};
+
+export type PageServiceItem = {
+  _key: string;
+  label?: string;
+  service?: ServiceItem;
+};
+
+export type PageSection = {
+  _key: string;
+  key: string;
+  badge?: string;
+  heading?: string;
+  intro?: string;
+  body?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  services?: PageServiceItem[];
+};
+
+export type PageContent = {
+  _id: string;
+  title: string;
+  slug: string;
+  seo?: SeoFields;
+  sections: PageSection[];
 };
 
 export type ResourceItem = {
@@ -47,3 +76,5 @@ export type ResourceListSettings = {
   intro?: string;
   seo?: SeoFields;
 };
+
+export type ResourceSettings = ResourceListSettings;

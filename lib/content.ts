@@ -1,14 +1,17 @@
 import { safeSanityFetch } from "@/lib/sanity/fetch";
 import {
-  resourceListSettingsQuery,
+  pageBySlugQuery,
+  resourceSettingsQuery,
   resourcesQuery,
-  serviceBySlugQuery,
-  servicesQuery,
+  servicePagesQuery,
+  servicePageBySlugQuery,
   siteSettingsQuery
 } from "@/lib/sanity/queries";
 import type {
+  PageContent,
+  PageSection,
   ResourceItem,
-  ResourceListSettings,
+  ResourceSettings,
   ServiceItem,
   SiteSettings
 } from "@/lib/sanity/types";
@@ -41,7 +44,7 @@ const fallbackSettings: SiteSettings = {
     "BGK Financial Planning focuses on clear, long-term support to help clients make informed decisions across key financial areas."
 };
 
-const fallbackResourceListSettings: ResourceListSettings = {
+const fallbackResourceSettings: ResourceSettings = {
   heading: "Resources",
   intro:
     "Helpful articles and guidance notes to support informed decisions around planning, investments, and protection."
@@ -99,24 +102,172 @@ const fallbackResources: ResourceItem[] = [
   }
 ];
 
+const fallbackPageContent: Record<string, PageContent> = {
+  home: {
+    _id: "page-home",
+    title: "Home",
+    slug: "home",
+    sections: [
+      {
+        _key: "home-hero",
+        key: "hero",
+        badge: "Independent Financial Planning",
+        heading: "Don't take any chances with your finances.",
+        intro:
+          "At BGK Financial Planning, we help individuals and families make informed financial decisions with practical, long-term advice across investments, retirement, protection, and mortgage planning.",
+        ctaLabel: "Explore Services",
+        ctaHref: "/services"
+      },
+      {
+        _key: "home-services",
+        key: "services",
+        heading: "Our Services",
+        intro: "Explore our core advisory services designed to support the next stage of your financial journey."
+      },
+      {
+        _key: "home-trust",
+        key: "trust",
+        heading: "Why clients choose BGK",
+        intro: "Our approach combines professional expertise with clear communication and dependable long-term support."
+      }
+    ]
+  },
+  about: {
+    _id: "page-about",
+    title: "About",
+    slug: "about",
+    sections: [
+      {
+        _key: "about-hero",
+        key: "hero",
+        badge: "About us",
+        heading: "About BGK Financial Planning",
+        intro:
+          "BGK Financial Planning supports clients through each stage of their financial journey with clear, practical advice."
+      },
+      {
+        _key: "about-process",
+        key: "process",
+        heading: "Our planning process",
+        intro: "A simple process designed to keep advice clear and actionable."
+      },
+      {
+        _key: "about-commitment",
+        key: "commitment",
+        heading: "Our commitment"
+      }
+    ]
+  },
+  services: {
+    _id: "page-services",
+    title: "Services",
+    slug: "services",
+    sections: [
+      {
+        _key: "services-hero",
+        key: "hero",
+        badge: "Advice areas",
+        heading: "Services",
+        intro: "Explore our core planning services. Each area is tailored to your circumstances and long-term goals."
+      },
+      {
+        _key: "services-help",
+        key: "help",
+        heading: "How we can help",
+        intro:
+          "Whether you are planning retirement, protecting your family, or organising long-term investments, we provide practical guidance that is easy to understand and act on."
+      }
+    ]
+  },
+  resources: {
+    _id: "page-resources",
+    title: "Resources",
+    slug: "resources",
+    sections: [
+      {
+        _key: "resources-hero",
+        key: "hero",
+        badge: "Insights",
+        heading: "Resources",
+        intro:
+          "Helpful articles and guidance notes to support informed decisions around planning, investments, and protection."
+      },
+      {
+        _key: "resources-why",
+        key: "why",
+        heading: "Why these resources matter",
+        intro:
+          "We publish concise, practical content to help you navigate common financial planning decisions with greater confidence."
+      }
+    ]
+  },
+  contact: {
+    _id: "page-contact",
+    title: "Contact",
+    slug: "contact",
+    sections: [
+      {
+        _key: "contact-hero",
+        key: "hero",
+        badge: "Get in touch",
+        heading: "Contact",
+        intro: "For general enquiries, please use the details below. We aim to respond as soon as possible."
+      },
+      {
+        _key: "contact-work",
+        key: "work",
+        heading: "Working with BGK",
+        intro:
+          "BGK Financial Planning focuses on clear, long-term support to help clients make informed decisions across key financial areas."
+      }
+    ]
+  }
+};
+
 export async function getSiteSettings(): Promise<SiteSettings> {
   const settings = await safeSanityFetch<SiteSettings>(siteSettingsQuery);
   return { ...fallbackSettings, ...(settings || {}) };
 }
 
-export async function getResourceListSettings(): Promise<ResourceListSettings> {
-  const settings = await safeSanityFetch<ResourceListSettings>(resourceListSettingsQuery);
-  return { ...fallbackResourceListSettings, ...(settings || {}) };
+export async function getResourceSettings(): Promise<ResourceSettings> {
+  const settings = await safeSanityFetch<ResourceSettings>(resourceSettingsQuery);
+  return { ...fallbackResourceSettings, ...(settings || {}) };
+}
+
+export async function getResourceListSettings(): Promise<ResourceSettings> {
+  return getResourceSettings();
+}
+
+export async function getPageContent(slug: string): Promise<PageContent> {
+  const page = await safeSanityFetch<PageContent>(pageBySlugQuery, { slug });
+  return page || fallbackPageContent[slug] || fallbackPageContent.home;
+}
+
+export function getPageSection(page: PageContent, key: string): PageSection | undefined {
+  return page.sections.find((section) => section.key === key);
 }
 
 export async function getServices(): Promise<ServiceItem[]> {
-  const services = await safeSanityFetch<ServiceItem[]>(servicesQuery);
+  const services = await safeSanityFetch<ServiceItem[]>(servicePagesQuery);
   return services && services.length > 0 ? services : fallbackServices;
 }
 
 export async function getServiceBySlug(slug: string): Promise<ServiceItem | null> {
-  const service = await safeSanityFetch<ServiceItem>(serviceBySlugQuery, { slug });
-  if (service) return service;
+  const servicePage = await safeSanityFetch<PageContent>(servicePageBySlugQuery, { slug: `services/${slug}` });
+  if (servicePage) {
+    const heroSection = servicePage.sections.find((section) => section.key === "hero");
+    const detailsSection = servicePage.sections.find((section) => section.key === "details");
+
+    return {
+      _id: servicePage._id,
+      title: heroSection?.heading || servicePage.title,
+      slug,
+      summary: heroSection?.intro,
+      heroImageUrl: heroSection?.imageUrl,
+      body: detailsSection?.body ? [{ _key: "service-details", children: [{ text: detailsSection.body }] }] : [],
+      seo: servicePage.seo
+    };
+  }
   return fallbackServices.find((item) => item.slug === slug) || null;
 }
 

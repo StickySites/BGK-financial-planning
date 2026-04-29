@@ -5,24 +5,26 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
-import { getResourceListSettings, getResources } from "@/lib/content";
+import { getPageContent, getPageSection, getResourceListSettings, getResources } from "@/lib/content";
 import { mapSeoToMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getResourceListSettings();
-  return mapSeoToMetadata(settings.seo, "/resources");
+  const [page, settings] = await Promise.all([getPageContent("resources"), getResourceListSettings()]);
+  return mapSeoToMetadata(page.seo || settings.seo, "/resources");
 }
 
 export default async function ResourcesPage() {
-  const [resourceSettings, resources] = await Promise.all([getResourceListSettings(), getResources()]);
+  const [page, resourceSettings, resources] = await Promise.all([getPageContent("resources"), getResourceListSettings(), getResources()]);
+  const heroSection = getPageSection(page, "hero");
+  const whySection = getPageSection(page, "why");
 
   return (
     <>
       <section className="section-shell bg-[#f7fbff]">
         <Container>
-          <Badge variant="secondary" className="mb-3">Insights</Badge>
-          <h1 className="section-title">{resourceSettings.heading}</h1>
-          <p className="section-intro">{resourceSettings.intro}</p>
+          <Badge variant="secondary" className="mb-3">{heroSection?.badge || "Insights"}</Badge>
+          <h1 className="section-title">{heroSection?.heading || resourceSettings.heading}</h1>
+          <p className="section-intro">{heroSection?.intro || resourceSettings.intro}</p>
 
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {resources.map((resource) => (
@@ -51,9 +53,10 @@ export default async function ResourcesPage() {
       <section className="section-shell">
         <Container>
           <div className="accent-section">
-            <h2 className="section-title">Why these resources matter</h2>
+            <h2 className="section-title">{whySection?.heading || "Why these resources matter"}</h2>
             <p className="section-intro">
-              We publish concise, practical content to help you navigate common financial planning decisions with greater confidence.
+              {whySection?.intro ||
+                "We publish concise, practical content to help you navigate common financial planning decisions with greater confidence."}
             </p>
           </div>
         </Container>

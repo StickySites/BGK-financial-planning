@@ -17,7 +17,10 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   icons: {
-    icon: "/media/bgk-logo-nobg.png",
+    icon: [
+      { url: "/media/bgk-logo-nobg.png", type: "image/png", sizes: "32x32" },
+      { url: "/media/bgk-logo-nobg.png", type: "image/png", sizes: "192x192" }
+    ],
     shortcut: "/media/bgk-logo-nobg.png",
     apple: "/media/bgk-logo-nobg.png"
   }

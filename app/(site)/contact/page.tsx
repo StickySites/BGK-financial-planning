@@ -3,24 +3,26 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { Separator } from "@/components/ui/separator";
-import { getSiteSettings } from "@/lib/content";
+import { getPageContent, getPageSection, getSiteSettings } from "@/lib/content";
 import { mapSeoToMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSiteSettings();
-  return mapSeoToMetadata(settings.seo, "/contact");
+  const [page, settings] = await Promise.all([getPageContent("contact"), getSiteSettings()]);
+  return mapSeoToMetadata(page.seo || settings.seo, "/contact");
 }
 
 export default async function ContactPage() {
-  const settings = await getSiteSettings();
+  const [page, settings] = await Promise.all([getPageContent("contact"), getSiteSettings()]);
+  const heroSection = getPageSection(page, "hero");
+  const workSection = getPageSection(page, "work");
 
   return (
     <>
       <section className="section-shell">
         <Container>
-          <Badge variant="secondary" className="mb-3">Get in touch</Badge>
-          <h1 className="section-title">Contact</h1>
-          <p className="section-intro">{settings.contactIntro}</p>
+          <Badge variant="secondary" className="mb-3">{heroSection?.badge || "Get in touch"}</Badge>
+          <h1 className="section-title">{heroSection?.heading || "Contact"}</h1>
+          <p className="section-intro">{heroSection?.intro || settings.contactIntro}</p>
 
           <div className="grid gap-5 md:grid-cols-2">
             <Card>
@@ -38,10 +40,10 @@ export default async function ContactPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Working with BGK</CardTitle>
+                <CardTitle>{workSection?.heading || "Working with BGK"}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="mb-3 text-sm text-muted-foreground">{settings.contactPanelBody}</p>
+                <p className="mb-3 text-sm text-muted-foreground">{workSection?.intro || settings.contactPanelBody}</p>
                 <p className="text-sm text-muted-foreground">We currently provide support through direct consultation and ongoing review.</p>
               </CardContent>
             </Card>

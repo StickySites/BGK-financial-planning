@@ -2,10 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "cdn.sanity.io" },
-      { protocol: "https", hostname: "dimgrey-chimpanzee-566844.hostingersite.com" }
-    ]
+    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }]
   }
 };
 

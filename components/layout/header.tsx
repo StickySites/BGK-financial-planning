@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { Button } from "@/components/ui/button";
@@ -15,13 +14,13 @@ export async function Header() {
         <nav aria-label="Main navigation" className="flex min-h-[78px] items-center justify-between gap-4 py-2 md:min-h-[82px] md:py-3">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 font-heading text-base font-semibold text-primary md:text-lg">
-              <Image
+              {/* <Image
                 src="/media/bgk-logo-nobg.png"
                 alt="BGK Financial Planning logo"
                 width={32}
                 height={32}
-                className="h-8 w-8 shrink-0 object-contain"
-              />
+                className="object-contain"
+              /> */}
               <span>BGK Financial Planning</span>
             </Link>
           </div>

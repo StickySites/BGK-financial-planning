@@ -1,9 +1,11 @@
-export const bgkBrandImage =
-  "https://dimgrey-chimpanzee-566844.hostingersite.com/wp-content/uploads/2026/03/cropped-54582-BGK-Logo-nobg.png";
+import type { ServiceItem } from "@/lib/sanity/types";
 
-export const serviceImageBySlug: Record<string, string> = {
-  "investment-guidance": bgkBrandImage,
-  "retirement-planning": bgkBrandImage,
-  protection: bgkBrandImage,
-  "mortgage-advice": bgkBrandImage
-};
+export const bgkBrandImage = "/media/bgk-logo-nobg.png";
+
+export function getServiceImageSrc(service: Pick<ServiceItem, "heroImageUrl">): string {
+  return service.heroImageUrl || bgkBrandImage;
+}
+
+export function isFallbackServiceImage(service: Pick<ServiceItem, "heroImageUrl">): boolean {
+  return !service.heroImageUrl;
+}

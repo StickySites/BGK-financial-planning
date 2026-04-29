@@ -23,24 +23,69 @@ export const siteSettingsQuery = groq`
   }
 `;
 
-export const servicesQuery = groq`
-  *[_type == "service"] | order(title asc) {
+export const pageBySlugQuery = groq`
+  *[_type == "page" && slug.current == $slug][0] {
     _id,
     title,
     "slug": slug.current,
-    summary,
-    body,
-    seo
+    seo,
+    sections[]{
+      _key,
+      key,
+      badge,
+      heading,
+      intro,
+      body,
+      "imageUrl": image.asset->url,
+      imageAlt,
+      ctaLabel,
+      ctaHref,
+      services[]{
+        _key,
+        label,
+        "service": service->{
+          _id,
+          title,
+          "slug": slug.current,
+          "summary": coalesce(sections[key == "hero"][0].intro, ""),
+          "heroImageUrl": sections[key == "hero"][0].image.asset->url,
+          "body": sections[key == "details"][0].body,
+          seo
+        }
+      }
+    }
   }
 `;
 
-export const serviceBySlugQuery = groq`
-  *[_type == "service" && slug.current == $slug][0] {
+export const servicePageBySlugQuery = groq`
+  *[_type == "page" && slug.current == $slug][0] {
     _id,
     title,
     "slug": slug.current,
-    summary,
-    body,
+    seo,
+    sections[]{
+      _key,
+      key,
+      badge,
+      heading,
+      intro,
+      body,
+      "imageUrl": image.asset->url,
+      imageAlt,
+      ctaLabel,
+      ctaHref
+    }
+  }
+`;
+
+export const servicePagesQuery = groq`
+  *[_type == "page" && slug.current match "services/*"] | order(title asc) {
+    _id,
+    title,
+    "slug": replace(slug.current, "services/", ""),
+    "summary": coalesce(sections[key == "hero"][0].intro, ""),
+    "heroImageUrl": sections[key == "hero"][0].image.asset->url,
+    "body": sections[key == "details"][0].body,
     seo
   }
 `;
@@ -55,8 +100,8 @@ export const resourcesQuery = groq`
   }
 `;
 
-export const resourceListSettingsQuery = groq`
-  *[_type == "resourceListSettings"][0] {
+export const resourceSettingsQuery = groq`
+  coalesce(*[_type == "resourceSettings"][0], *[_type == "resourceListSettings"][0]) {
     heading,
     intro,
     seo

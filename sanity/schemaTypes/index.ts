@@ -1,7 +1,9 @@
+import { pageType } from "@/sanity/schemaTypes/documents/page";
 import { resourceItemType } from "@/sanity/schemaTypes/documents/resourceItem";
-import { resourceListSettingsType } from "@/sanity/schemaTypes/documents/resourceListSettings";
-import { serviceType } from "@/sanity/schemaTypes/documents/service";
+import { resourceSettingsType } from "@/sanity/schemaTypes/documents/resourceListSettings";
+import { pageServiceItemType } from "@/sanity/schemaTypes/objects/pageServiceItem";
+import { pageSectionType } from "@/sanity/schemaTypes/objects/pageSection";
 import { siteSettingsType } from "@/sanity/schemaTypes/documents/siteSettings";
 import { seoType } from "@/sanity/schemaTypes/objects/seo";
 
-export const schemaTypes = [seoType, siteSettingsType, serviceType, resourceItemType, resourceListSettingsType];
+export const schemaTypes = [seoType, pageServiceItemType, pageSectionType, pageType, siteSettingsType, resourceItemType, resourceSettingsType];

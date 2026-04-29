@@ -9,7 +9,7 @@ import { Container } from "@/components/ui/container";
 import { Separator } from "@/components/ui/separator";
 import { getServiceBySlug, getServices } from "@/lib/content";
 import { mapSeoToMetadata } from "@/lib/seo";
-import { bgkBrandImage, serviceImageBySlug } from "@/lib/service-media";
+import { getServiceImageSrc, isFallbackServiceImage } from "@/lib/service-media";
 
 export async function generateStaticParams() {
   const services = await getServices();
@@ -47,9 +47,13 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <Card>
               <CardContent className="pt-6">
                 <div className="prose prose-slate max-w-none text-sm leading-relaxed text-muted-foreground">
-                  {service.body.map((block) => (
-                    <p key={block._key}>{block.children.map((child) => child.text).join("")}</p>
-                  ))}
+                  {Array.isArray(service.body) && service.body.length > 0 ? (
+                    service.body.map((block: { _key?: string; children?: Array<{ text?: string }> }, index: number) => (
+                      <p key={block._key || `block-${index}`}>{(block.children || []).map((child) => child.text || "").join("")}</p>
+                    ))
+                  ) : (
+                    <p>Service information coming soon.</p>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -57,11 +61,11 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <Card className="overflow-hidden">
               <div className="relative h-52 bg-white">
                 <Image
-                  src={serviceImageBySlug[service.slug] || bgkBrandImage}
+                  src={getServiceImageSrc(service)}
                   alt={service.title}
                   fill
                   sizes="(min-width: 768px) 40vw, 100vw"
-                  className="object-contain p-6"
+                  className={`object-contain p-6 ${isFallbackServiceImage(service) ? "opacity-70" : ""}`}
                 />
               </div>
               <CardHeader>

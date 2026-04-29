@@ -1,8 +1,8 @@
 import { defineField, defineType } from "sanity";
 
-export const resourceListSettingsType = defineType({
-  name: "resourceListSettings",
-  title: "Resource List Settings",
+export const resourceSettingsType = defineType({
+  name: "resourceSettings",
+  title: "Resource Settings",
   type: "document",
   fields: [
     defineField({ name: "heading", title: "Heading", type: "string" }),
