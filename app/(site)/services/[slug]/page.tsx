@@ -48,7 +48,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               <CardContent className="pt-6">
                 <div className="prose prose-slate max-w-none text-sm leading-relaxed text-muted-foreground">
                   {Array.isArray(service.body) && service.body.length > 0 ? (
-                    service.body.map((block: { _key?: string; children?: Array<{ text?: string }> }, index: number) => (
+                    service.body.map((block, index) => (
                       <p key={block._key || `block-${index}`}>{(block.children || []).map((child) => child.text || "").join("")}</p>
                     ))
                   ) : (

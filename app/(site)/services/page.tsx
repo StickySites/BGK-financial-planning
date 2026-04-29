@@ -22,7 +22,8 @@ export default async function ServicesPage() {
     heroSection?.services
       ?.map((item) => (item.service ? { service: item.service, label: item.label } : null))
       .filter((item): item is NonNullable<typeof item> => Boolean(item)) || [];
-  const visibleServices = sectionServices.length > 0 ? sectionServices : services.map((service) => ({ service }));
+  const visibleServices: Array<{ service: (typeof services)[number]; label?: string }> =
+    sectionServices.length > 0 ? sectionServices : services.map((service) => ({ service }));
 
   return (
     <>

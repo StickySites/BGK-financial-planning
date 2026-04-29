@@ -31,7 +31,10 @@ export type ServiceItem = {
   slug: string;
   summary?: string;
   heroImageUrl?: string;
-  body?: Array<unknown>;
+  body?: Array<{
+    _key?: string;
+    children?: Array<{ text?: string }>;
+  }>;
   seo?: SeoFields;
 };
 
