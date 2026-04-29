@@ -1,117 +1,94 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
+import { Separator } from "@/components/ui/separator";
 import { getServiceBySlug, getServices } from "@/lib/content";
 import { mapSeoToMetadata } from "@/lib/seo";
-
-type ServiceDetailPageProps = { params: Promise<{ slug: string }> };
-
-function detailBlocks(slug: string) {
-  switch (slug) {
-    case "investment-guidance":
-      return {
-        who: "Individuals and families looking to invest with structure and clarity.",
-        cover: "Goal setting, risk alignment, portfolio approach, and review cadence.",
-        outcomes: "A clear investment strategy built around your time horizon and priorities."
-      };
-    case "retirement-planning":
-      return {
-        who: "People preparing for retirement or reviewing retirement income options.",
-        cover: "Pension planning, retirement timelines, and sustainable income strategy.",
-        outcomes: "Greater confidence in what retirement could look like and how to fund it."
-      };
-    case "protection":
-      return {
-        who: "Families and individuals wanting to protect income, health, and dependants.",
-        cover: "Life cover, income protection, and critical illness planning.",
-        outcomes: "A resilient plan that helps reduce financial disruption during unexpected events."
-      };
-    case "mortgage-advice":
-      return {
-        who: "Buyers, movers, and remortgagers seeking suitable mortgage options.",
-        cover: "Affordability context, lender options, structure comparisons, and planning implications.",
-        outcomes: "A mortgage approach that supports your wider financial plan."
-      };
-    default:
-      return {
-        who: "Clients seeking practical financial planning support.",
-        cover: "A clear process tailored to your specific priorities.",
-        outcomes: "Confident decisions with a long-term plan in place."
-      };
-  }
-}
+import { bgkBrandImage, serviceImageBySlug } from "@/lib/service-media";
 
 export async function generateStaticParams() {
   const services = await getServices();
   return services.map((service) => ({ slug: service.slug }));
 }
 
-export async function generateMetadata({ params }: ServiceDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
-  if (!service) return mapSeoToMetadata(undefined, `/services/${slug}`);
-  return mapSeoToMetadata(service.seo, `/services/${slug}`);
+
+  if (!service) {
+    return mapSeoToMetadata(undefined, "/services");
+  }
+
+  return mapSeoToMetadata(service.seo, `/services/${service.slug}`);
 }
 
-export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
+export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
 
-  if (!service) notFound();
-  const detail = detailBlocks(slug);
+  if (!service) {
+    notFound();
+  }
 
   return (
-    <section className="section-shell">
-      <Container>
-        <Badge className="mb-3" variant="secondary">Service overview</Badge>
-        <h1 className="section-title">{service.title}</h1>
-        <p className="section-intro">{service.summary || "Detailed service information will be added soon."}</p>
+    <>
+      <section className="section-shell">
+        <Container>
+          <Badge variant="secondary" className="mb-3">Service</Badge>
+          <h1 className="section-title">{service.title}</h1>
+          <p className="section-intro">{service.summary}</p>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Who this helps</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">{detail.who}</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>What we cover</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">{detail.cover}</p>
-            </CardContent>
-          </Card>
-        </div>
+          <div className="grid gap-5 md:grid-cols-[1.1fr_0.9fr]">
+            <Card>
+              <CardContent className="pt-6">
+                <div className="prose prose-slate max-w-none text-sm leading-relaxed text-muted-foreground">
+                  {service.body.map((block) => (
+                    <p key={block._key}>{block.children.map((child) => child.text).join("")}</p>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
-        <Card className="mt-5">
-          <CardHeader>
-            <CardTitle>Expected outcomes</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4 text-sm text-muted-foreground">{detail.outcomes}</p>
-            <Accordion type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger>What happens first?</AccordionTrigger>
-                <AccordionContent>
-                  We begin with a conversation about your goals, current position, and priorities to shape the right approach.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger>How often is the plan reviewed?</AccordionTrigger>
-                <AccordionContent>
-                  Reviews are scheduled regularly and adjusted where needed to reflect market changes or personal circumstances.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </CardContent>
-        </Card>
-      </Container>
-    </section>
+            <Card className="overflow-hidden">
+              <div className="relative h-52 bg-white">
+                <Image
+                  src={serviceImageBySlug[service.slug] || bgkBrandImage}
+                  alt={service.title}
+                  fill
+                  sizes="(min-width: 768px) 40vw, 100vw"
+                  className="object-contain p-6"
+                />
+              </div>
+              <CardHeader>
+                <CardTitle>Discuss this service</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <p>Book a conversation to explore whether this area of advice is right for you.</p>
+                <Separator />
+                <Button asChild>
+                  <Link href="/contact">Contact BGK</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </Container>
+      </section>
+
+      <section className="section-shell bg-[#eef5fc]">
+        <Container>
+          <div className="accent-section bg-white">
+            <h2 className="section-title">Related support</h2>
+            <p className="section-intro">
+              We provide joined-up planning across investments, retirement, mortgage, and protection so recommendations remain aligned with your wider goals.
+            </p>
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }

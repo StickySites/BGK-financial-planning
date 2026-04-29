@@ -43,7 +43,7 @@
 
 @layer components {
   .section-shell {
-    @apply py-16 md:py-20;
+    @apply py-14 md:py-16 lg:py-20;
   }
 
   .section-title {
@@ -51,11 +51,11 @@
   }
 
   .section-intro {
-    @apply mb-8 max-w-3xl text-base text-muted-foreground md:text-lg;
+    @apply mb-7 max-w-3xl text-base text-muted-foreground md:mb-8 md:text-lg;
   }
 
   .hero-panel {
-    @apply grid gap-8 rounded-3xl border border-border bg-card p-8 shadow-soft md:grid-cols-[1.2fr_0.8fr] md:p-12;
+    @apply relative grid gap-8 overflow-hidden rounded-none bg-card p-8 md:grid-cols-[1.15fr_0.85fr] md:p-12;
     background: linear-gradient(150deg, #ffffff 0%, #e9f1f9 100%);
   }
 
@@ -67,11 +67,35 @@
     @apply mt-6 grid gap-4 rounded-3xl bg-primary p-6 text-primary-foreground md:grid-cols-3;
   }
 
+  .accent-section {
+    @apply rounded-3xl border border-[#d9e5f1] bg-[#eef5fc] p-6 md:p-8;
+  }
+
   .kpi-title {
     @apply mb-1 font-heading text-2xl font-semibold text-white;
   }
 
   .kpi-text {
     @apply text-sm text-blue-100;
+  }
+
+  .service-card-variant {
+    @apply transition-all hover:-translate-y-1 hover:shadow-soft;
+  }
+
+  .service-card-variant:nth-child(4n + 1) {
+    @apply border-l-4 border-l-[#00509E];
+  }
+
+  .service-card-variant:nth-child(4n + 2) {
+    @apply border-l-4 border-l-[#3E6992];
+  }
+
+  .service-card-variant:nth-child(4n + 3) {
+    @apply border-l-4 border-l-[#E9C400];
+  }
+
+  .service-card-variant:nth-child(4n + 4) {
+    @apply border-l-4 border-l-primary;
   }
 }

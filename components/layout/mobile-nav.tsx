@@ -28,19 +28,19 @@ export function MobileNav({ services }: MobileNavProps) {
           <SheetTitle>Menu</SheetTitle>
         </SheetHeader>
         <div className="mt-4 space-y-4">
-          <nav className="space-y-3 text-sm font-medium text-primary">
-            <Link href="/" className="block">Home</Link>
-            <Link href="/services" className="block">Services</Link>
-            <div className="pl-3 text-muted-foreground">
+          <nav className="space-y-2 text-sm font-medium text-primary">
+            <Link href="/" className="block rounded-md px-2 py-2 hover:bg-muted">Home</Link>
+            <Link href="/services" className="block rounded-md px-2 py-2 hover:bg-muted">Services</Link>
+            <div className="space-y-1 border-l border-border pl-4 text-muted-foreground">
               {services.map((service) => (
-                <Link key={service.slug} href={`/services/${service.slug}`} className="block py-1">
+                <Link key={service.slug} href={`/services/${service.slug}`} className="block rounded-md px-2 py-1.5 hover:bg-muted">
                   {service.title}
                 </Link>
               ))}
             </div>
-            <Link href="/about" className="block">About</Link>
-            <Link href="/resources" className="block">Resources</Link>
-            <Link href="/contact" className="block">Contact</Link>
+            <Link href="/about" className="block rounded-md px-2 py-2 hover:bg-muted">About</Link>
+            <Link href="/resources" className="block rounded-md px-2 py-2 hover:bg-muted">Resources</Link>
+            <Link href="/contact" className="block rounded-md px-2 py-2 hover:bg-muted">Contact</Link>
           </nav>
           <Separator />
           <p className="text-xs text-muted-foreground">BGK Financial Planning</p>

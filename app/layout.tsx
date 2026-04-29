@@ -1,4 +1,5 @@
 import { Figtree, Poppins } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 
 const figtree = Figtree({
@@ -13,6 +14,14 @@ const poppins = Poppins({
   weight: ["500", "600", "700"],
   display: "swap"
 });
+
+export const metadata: Metadata = {
+  icons: {
+    icon: "/media/bgk-logo-nobg.png",
+    shortcut: "/media/bgk-logo-nobg.png",
+    apple: "/media/bgk-logo-nobg.png"
+  }
+};
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

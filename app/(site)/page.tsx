@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +9,7 @@ import { Container } from "@/components/ui/container";
 import { Separator } from "@/components/ui/separator";
 import { fallbackTestimonials, getResources, getServices, getSiteSettings } from "@/lib/content";
 import { mapSeoToMetadata } from "@/lib/seo";
+import { bgkBrandImage, serviceImageBySlug } from "@/lib/service-media";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
@@ -22,9 +25,11 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="section-shell">
-        <Container>
-          <div className="hero-panel">
+      <section className="w-full">
+        <div className="flex min-h-[88vh] flex-col">
+          <div className="flex min-h-[74vh] flex-1 items-center bg-white">
+            <Container>
+              <div className="hero-panel">
             <div>
               <Badge variant="secondary" className="mb-3">Independent Financial Planning</Badge>
               <h1 className="mb-4 font-heading text-4xl font-semibold leading-tight md:text-6xl">
@@ -39,40 +44,56 @@ export default async function HomePage() {
                 <Button asChild variant="secondary"><Link href="/contact">Speak to BGK</Link></Button>
               </div>
             </div>
-            <div className="hero-placeholder">Media placeholder: homepage hero</div>
+            <div className="hero-placeholder relative h-[250px] overflow-hidden md:h-full">
+              <Image src={bgkBrandImage} alt="BGK logo" fill sizes="(min-width: 768px) 40vw, 100vw" className="object-contain p-6" />
+            </div>
+              </div>
+            </Container>
           </div>
-
-          <div className="kpi-band">
-            <article>
-              <h3 className="kpi-title">Personalised</h3>
-              <p className="kpi-text">Advice tailored to your goals, timeline, and circumstances.</p>
-            </article>
-            <article>
-              <h3 className="kpi-title">Practical</h3>
-              <p className="kpi-text">Clear recommendations explained in plain English.</p>
-            </article>
-            <article>
-              <h3 className="kpi-title">Long-term</h3>
-              <p className="kpi-text">Ongoing reviews to keep your planning aligned over time.</p>
-            </article>
+          <div className="flex min-h-[14vh] items-center bg-primary py-4">
+            <Container>
+              <div className="kpi-band m-0 bg-transparent p-0">
+                <article>
+                  <h3 className="kpi-title">Personalised</h3>
+                  <p className="kpi-text">Advice tailored to your goals, timeline, and circumstances.</p>
+                </article>
+                <article>
+                  <h3 className="kpi-title">Practical</h3>
+                  <p className="kpi-text">Clear recommendations explained in plain English.</p>
+                </article>
+                <article>
+                  <h3 className="kpi-title">Long-term</h3>
+                  <p className="kpi-text">Ongoing reviews to keep your planning aligned over time.</p>
+                </article>
+              </div>
+            </Container>
           </div>
-        </Container>
+        </div>
       </section>
 
-      <section className="section-shell">
+      <section className="section-shell bg-[#eef5fc]">
         <Container>
           <h2 className="section-title">Our Services</h2>
           <p className="section-intro">{settings.servicesIntro}</p>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {services.map((service) => (
-              <Card key={service.slug}>
+              <Card key={service.slug} className="service-card-variant overflow-hidden">
+                <div className="relative h-32 bg-white">
+                  <Image
+                    src={serviceImageBySlug[service.slug] || bgkBrandImage}
+                    alt={`${service.title} icon`}
+                    fill
+                    sizes="(min-width: 1280px) 22vw, (min-width: 768px) 45vw, 100vw"
+                    className="object-contain p-4"
+                  />
+                </div>
                 <CardHeader>
                   <CardTitle>{service.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="mb-4 text-sm text-muted-foreground">{service.summary || "Service details coming soon."}</p>
-                  <Link className="text-sm font-semibold text-[#00509E] hover:underline" href={`/services/${service.slug}`}>
-                    View service
+                  <Link className="inline-flex items-center gap-1 text-sm font-semibold text-[#00509E] hover:underline" href={`/services/${service.slug}`}>
+                    View service <ArrowRight className="h-4 w-4" />
                   </Link>
                 </CardContent>
               </Card>
@@ -83,31 +104,33 @@ export default async function HomePage() {
 
       <section className="section-shell">
         <Container>
-          <h2 className="section-title">{settings.trustHeading}</h2>
-          <p className="section-intro">{settings.trustIntro}</p>
-          <div className="grid gap-5 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Trusted guidance</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm text-muted-foreground">
-                <p>{settings.trustPointOne}</p>
-                <Separator />
-                <p>{settings.trustPointTwo}</p>
-                <Separator />
-                <p>{settings.trustPointThree}</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>How we work</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  We start with your priorities, build a clear plan, and provide regular reviews so decisions remain aligned to your life and goals.
-                </p>
-              </CardContent>
-            </Card>
+          <div className="accent-section">
+            <h2 className="section-title">{settings.trustHeading}</h2>
+            <p className="section-intro">{settings.trustIntro}</p>
+            <div className="grid gap-5 md:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Trusted guidance</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>{settings.trustPointOne}</p>
+                  <Separator />
+                  <p>{settings.trustPointTwo}</p>
+                  <Separator />
+                  <p>{settings.trustPointThree}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>How we work</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    We start with your priorities, build a clear plan, and provide regular reviews so decisions remain aligned to your life and goals.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </Container>
       </section>
@@ -128,7 +151,7 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <section className="section-shell">
+      <section className="section-shell bg-[#f7fbff]">
         <Container>
           <h2 className="section-title">Latest resources</h2>
           <p className="section-intro">Practical insights to support better financial decisions throughout the year.</p>
