@@ -1,9 +1,9 @@
-import { pageType } from "@/sanity/schemaTypes/documents/page";
-import { resourceItemType } from "@/sanity/schemaTypes/documents/resourceItem";
-import { resourceSettingsType } from "@/sanity/schemaTypes/documents/resourceListSettings";
-import { pageServiceItemType } from "@/sanity/schemaTypes/objects/pageServiceItem";
-import { pageSectionType } from "@/sanity/schemaTypes/objects/pageSection";
-import { siteSettingsType } from "@/sanity/schemaTypes/documents/siteSettings";
-import { seoType } from "@/sanity/schemaTypes/objects/seo";
+import { pageType } from "./documents/page";
+import { resourceItemType } from "./documents/resourceItem";
+import { resourceSettingsType } from "./documents/resourceSettings";
+import { pageServiceItemType } from "./objects/pageServiceItem";
+import { pageSectionType } from "./objects/pageSection";
+import { siteSettingsType } from "./documents/siteSettings";
+import { seoType } from "./objects/seo";
 
 export const schemaTypes = [seoType, pageServiceItemType, pageSectionType, pageType, siteSettingsType, resourceItemType, resourceSettingsType];

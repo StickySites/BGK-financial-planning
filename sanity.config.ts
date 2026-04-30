@@ -2,15 +2,14 @@
 
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
-import { sanityEnv } from "@/lib/sanity/env";
-import { schemaTypes } from "@/sanity/schemaTypes";
+import { schemaTypes } from "./sanity/schemaTypes";
 
 export default defineConfig({
   name: "default",
   title: "BGK Studio",
   basePath: "/studio",
-  projectId: sanityEnv.projectId,
-  dataset: sanityEnv.dataset,
+  projectId: "kdjdo3mu",
+  dataset: "production",
   plugins: [deskTool()],
   schema: { types: schemaTypes }
 });

@@ -12,8 +12,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [page, settings] = await Promise.all([getPageContent("about"), getSiteSettings()]);
+  const page = await getPageContent("about");
   const heroSection = getPageSection(page, "hero");
+  const approachSection = getPageSection(page, "approach");
+  const expectationsSection = getPageSection(page, "expectations");
   const processSection = getPageSection(page, "process");
   const commitmentSection = getPageSection(page, "commitment");
 
@@ -25,25 +27,30 @@ export default async function AboutPage() {
           <h1 className="section-title">{heroSection?.heading || "About BGK Financial Planning"}</h1>
           <p className="section-intro">
             {heroSection?.intro ||
-              settings.aboutIntro ||
               "BGK Financial Planning supports clients through each stage of their financial journey with clear, practical advice."}
           </p>
 
           <div className="grid gap-5 md:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle>Our approach</CardTitle>
+                <CardTitle>{approachSection?.heading || "Our approach"}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">{settings.aboutApproach}</p>
+                <p className="text-sm text-muted-foreground">
+                  {approachSection?.intro ||
+                    "We prioritise transparency, consistency, and long-term relationships. Every recommendation is shaped around your personal circumstances and future goals."}
+                </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>What clients can expect</CardTitle>
+                <CardTitle>{expectationsSection?.heading || "What clients can expect"}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">{settings.aboutExpectations}</p>
+                <p className="text-sm text-muted-foreground">
+                  {expectationsSection?.intro ||
+                    "Structured guidance, clear next steps, and regular reviews to keep your plan aligned as life and markets change."}
+                </p>
               </CardContent>
             </Card>
           </div>

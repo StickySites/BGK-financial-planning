@@ -18,30 +18,14 @@ import type {
 
 const fallbackSettings: SiteSettings = {
   siteTitle: "BGK Financial Planning",
-  tagline: "Don't take any chances with your finances.",
-  heroIntro:
-    "We help individuals and families make confident financial decisions through practical, long-term planning.",
-  servicesIntro:
-    "Explore our core advisory services designed to support the next stage of your financial journey.",
-  trustHeading: "Why clients choose BGK",
-  trustIntro:
-    "Our approach combines professional expertise with clear communication and dependable long-term support.",
-  trustPointOne: "Independent guidance aligned to your personal goals.",
-  trustPointTwo: "Transparent advice and recommendations in plain English.",
-  trustPointThree: "Ongoing reviews that keep your plan on track.",
   email: "hello@bgkfinancialplanning.co.uk",
   phone: "+44 (0)20 1234 5678",
   address: "London, United Kingdom",
-  aboutIntro:
-    "BGK Financial Planning supports clients through each stage of their financial journey with clear, practical advice.",
-  aboutApproach:
-    "We prioritise transparency, consistency, and long-term relationships. Every recommendation is shaped around your personal circumstances and future goals.",
-  aboutExpectations:
-    "Structured guidance, clear next steps, and regular reviews to keep your plan aligned as life and markets change.",
-  contactIntro:
-    "For general enquiries, please use the details below. We aim to respond as soon as possible.",
-  contactPanelBody:
-    "BGK Financial Planning focuses on clear, long-term support to help clients make informed decisions across key financial areas."
+  seo: {
+    title: "BGK Financial Planning",
+    description: "Professional financial planning guidance across investment, retirement, protection, and mortgage decisions.",
+    noIndex: false
+  }
 };
 
 const fallbackResourceSettings: ResourceSettings = {
@@ -146,6 +130,19 @@ const fallbackPageContent: Record<string, PageContent> = {
           "BGK Financial Planning supports clients through each stage of their financial journey with clear, practical advice."
       },
       {
+        _key: "about-approach",
+        key: "approach",
+        heading: "Our approach",
+        intro:
+          "We prioritise transparency, consistency, and long-term relationships. Every recommendation is shaped around your personal circumstances and future goals."
+      },
+      {
+        _key: "about-expectations",
+        key: "expectations",
+        heading: "What clients can expect",
+        intro: "Structured guidance, clear next steps, and regular reviews to keep your plan aligned as life and markets change."
+      },
+      {
         _key: "about-process",
         key: "process",
         heading: "Our planning process",
@@ -232,10 +229,6 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 export async function getResourceSettings(): Promise<ResourceSettings> {
   const settings = await safeSanityFetch<ResourceSettings>(resourceSettingsQuery);
   return { ...fallbackResourceSettings, ...(settings || {}) };
-}
-
-export async function getResourceListSettings(): Promise<ResourceSettings> {
-  return getResourceSettings();
 }
 
 export async function getPageContent(slug: string): Promise<PageContent> {

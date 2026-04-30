@@ -6,22 +6,9 @@ export type SeoFields = {
 
 export type SiteSettings = {
   siteTitle?: string;
-  tagline?: string;
-  heroIntro?: string;
-  servicesIntro?: string;
-  trustHeading?: string;
-  trustIntro?: string;
-  trustPointOne?: string;
-  trustPointTwo?: string;
-  trustPointThree?: string;
   email?: string;
   phone?: string;
   address?: string;
-  aboutIntro?: string;
-  aboutApproach?: string;
-  aboutExpectations?: string;
-  contactIntro?: string;
-  contactPanelBody?: string;
   seo?: SeoFields;
 };
 
@@ -74,10 +61,8 @@ export type ResourceItem = {
   externalUrl?: string;
 };
 
-export type ResourceListSettings = {
+export type ResourceSettings = {
   heading?: string;
   intro?: string;
   seo?: SeoFields;
 };
-
-export type ResourceSettings = ResourceListSettings;

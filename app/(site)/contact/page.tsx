@@ -22,7 +22,7 @@ export default async function ContactPage() {
         <Container>
           <Badge variant="secondary" className="mb-3">{heroSection?.badge || "Get in touch"}</Badge>
           <h1 className="section-title">{heroSection?.heading || "Contact"}</h1>
-          <p className="section-intro">{heroSection?.intro || settings.contactIntro}</p>
+          <p className="section-intro">{heroSection?.intro || "For general enquiries, please use the details below. We aim to respond as soon as possible."}</p>
 
           <div className="grid gap-5 md:grid-cols-2">
             <Card>
@@ -43,7 +43,10 @@ export default async function ContactPage() {
                 <CardTitle>{workSection?.heading || "Working with BGK"}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="mb-3 text-sm text-muted-foreground">{workSection?.intro || settings.contactPanelBody}</p>
+                <p className="mb-3 text-sm text-muted-foreground">
+                  {workSection?.intro ||
+                    "BGK Financial Planning focuses on clear, long-term support to help clients make informed decisions across key financial areas."}
+                </p>
                 <p className="text-sm text-muted-foreground">We currently provide support through direct consultation and ongoing review.</p>
               </CardContent>
             </Card>

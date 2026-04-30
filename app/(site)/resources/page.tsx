@@ -5,16 +5,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
-import { getPageContent, getPageSection, getResourceListSettings, getResources } from "@/lib/content";
+import { getPageContent, getPageSection, getResourceSettings, getResources } from "@/lib/content";
 import { mapSeoToMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [page, settings] = await Promise.all([getPageContent("resources"), getResourceListSettings()]);
+  const [page, settings] = await Promise.all([getPageContent("resources"), getResourceSettings()]);
   return mapSeoToMetadata(page.seo || settings.seo, "/resources");
 }
 
 export default async function ResourcesPage() {
-  const [page, resourceSettings, resources] = await Promise.all([getPageContent("resources"), getResourceListSettings(), getResources()]);
+  const [page, resourceSettings, resources] = await Promise.all([getPageContent("resources"), getResourceSettings(), getResources()]);
   const heroSection = getPageSection(page, "hero");
   const whySection = getPageSection(page, "why");
 
