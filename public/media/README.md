@@ -1,46 +1,23 @@
-# Media Upload Staging
+# Media assets
 
-Drop brand and content assets into these folders before final wiring.
+Site images live in this folder and are referenced from `lib/content/local/media.ts`.
 
 ## Folder guide
 
-- `logo/`
-  - Main brand logo files (SVG/PNG)
-  - Suggested: `bgk-logo.svg`, `bgk-logo-dark.png`
+- `logo/` - brand logo files (SVG/PNG)
+- `home/` - homepage visuals (hero, etc.)
+- `services/` - service hero images, e.g. `investment-guidance-hero.jpg`
+- `about/` - about page imagery
+- `resources/` - resources page imagery
+- `contact/` - contact page imagery
 
-- `home/`
-  - Homepage visuals
-  - Hero placeholder replacement
-  - Testimonial avatars (if used later)
+## Updating images
 
-- `services/`
-  - Service-related images
-  - Use clear names for each service, for example:
-    - `investment-guidance-hero.jpg`
-    - `retirement-planning-hero.jpg`
-    - `protection-hero.jpg`
-    - `mortgage-advice-hero.jpg`
-
-- `about/`
-  - About page supporting imagery
-
-- `resources/`
-  - Resource listing thumbnails/featured images (future-ready)
-
-- `seo/`
-  - Open Graph images (social sharing)
-  - Suggested size: 1200x630
-
-## Sanity mapping (current schemas)
-
-- Service image files -> `Service.heroImage`
-- SEO social images -> `seo.ogImage` on:
-  - `Site Settings`
-  - each `Service`
-  - `Resource List Settings`
+1. Add or replace files here (keep names lowercase with hyphens).
+2. Update paths in `lib/content/local/media.ts` if filenames or locations change.
+3. Service hero URLs are wired in `lib/content/local/services.ts` via `localMedia`.
 
 ## Notes
 
-- These files are local staging assets in the codebase.
-- They still need to be uploaded into Sanity media fields through Studio.
-- Keep file names lowercase with hyphens for consistency.
+- Files in `public/media/` are served at `/media/...` in the site.
+- For copy and structured content, edit the TypeScript files under `lib/content/local/`.

@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "BGK Financial Planning",
-  description: "Professional financial planning guidance across investment, retirement, protection, and mortgage decisions.",
+  description: "Professional financial planning guidance across investment, retirement, protection, and coordinated mortgage referrals.",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   navItems: [
     { label: "Home", href: "/" },
@@ -13,6 +13,6 @@ export const siteConfig = {
     { title: "Investment Guidance", slug: "investment-guidance" },
     { title: "Retirement Planning", slug: "retirement-planning" },
     { title: "Protection", slug: "protection" },
-    { title: "Mortgage Advice", slug: "mortgage-advice" }
+    { title: "Mortgage Referrals", slug: "mortgage-advice" }
   ]
 };

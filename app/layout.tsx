@@ -1,5 +1,6 @@
 import { Figtree, Poppins } from "next/font/google";
 import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const figtree = Figtree({
@@ -16,14 +17,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  icons: {
-    icon: [
-      { url: "/media/bgk-logo-nobg.png", type: "image/png", sizes: "32x32" },
-      { url: "/media/bgk-logo-nobg.png", type: "image/png", sizes: "192x192" }
-    ],
-    shortcut: "/media/bgk-logo-nobg.png",
-    apple: "/media/bgk-logo-nobg.png"
-  }
+  metadataBase: new URL(siteConfig.siteUrl)
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

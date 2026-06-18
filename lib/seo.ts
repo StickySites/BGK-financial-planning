@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
-import type { SeoFields } from "@/lib/sanity/types";
+import type { SeoFields } from "@/lib/content/types";
 
 export function buildCanonical(pathname = "/"): string {
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
@@ -23,6 +23,11 @@ export function mapSeoToMetadata(seo: SeoFields | null | undefined, pathname = "
       siteName: siteConfig.name,
       locale: "en_GB",
       type: "website"
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description
     },
     robots: { index: !seo?.noIndex, follow: !seo?.noIndex }
   };

@@ -1,13 +1,17 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site";
 
-const staticRoutes = ["/", "/about", "/services", "/resources", "/contact"];
+const staticRoutes = ["/", "/services", "/about", "/resources", "/contact"];
+
+const serviceRoutes = siteConfig.services.map((service) => `/services/${service.slug}`);
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return staticRoutes.map((route) => ({
+  const routes = [...staticRoutes, ...serviceRoutes];
+
+  return routes.map((route) => ({
     url: new URL(route, siteConfig.siteUrl).toString(),
     lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: route === "/" ? 1 : 0.6
+    changeFrequency: route === "/resources" ? "weekly" : "monthly",
+    priority: route === "/" ? 1 : route.startsWith("/services") ? 0.9 : 0.7
   }));
 }

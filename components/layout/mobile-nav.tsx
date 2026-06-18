@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { bgkBrandImage } from "@/lib/service-media";
 
 type ServiceLink = {
   title: string;
@@ -25,7 +27,17 @@ export function MobileNav({ services }: MobileNavProps) {
       </SheetTrigger>
       <SheetContent side="right" className="w-[85%] max-w-sm">
         <SheetHeader>
-          <SheetTitle>Menu</SheetTitle>
+          <SheetTitle className="flex items-center gap-2.5 font-heading text-base text-primary">
+            <Image
+              src={bgkBrandImage}
+              alt=""
+              aria-hidden
+              width={1134}
+              height={803}
+              className="h-8 w-auto shrink-0"
+            />
+            Menu
+          </SheetTitle>
         </SheetHeader>
         <div className="mt-4 space-y-4">
           <nav className="space-y-2 text-sm font-medium text-primary">
@@ -43,7 +55,14 @@ export function MobileNav({ services }: MobileNavProps) {
             <Link href="/contact" className="block rounded-md px-2 py-2 hover:bg-muted">Contact</Link>
           </nav>
           <Separator />
-          <p className="text-xs text-muted-foreground">BGK Financial Planning</p>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground">BGK Financial Planning</p>
+            <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs">
+              <Link href="/privacy-policy" className="text-muted-foreground hover:text-primary">Privacy Policy</Link>
+              <Link href="/terms-of-business" className="text-muted-foreground hover:text-primary">Terms</Link>
+              <Link href="/complaints-policy" className="text-muted-foreground hover:text-primary">Complaints</Link>
+            </div>
+          </div>
         </div>
       </SheetContent>
     </Sheet>
